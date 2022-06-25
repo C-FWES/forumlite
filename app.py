@@ -10,6 +10,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 
 db.init_app(app)
 
+from models import User
+
+with app.app_context():
+    db.create_all()
+    db.session.commit()
+
 from auth import auth as auth_blueprint
 app.register_blueprint(auth_blueprint)
 
