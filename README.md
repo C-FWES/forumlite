@@ -1,2 +1,2 @@
 # freedomnet
- Discourse freely without censorship of FreedomNet
+ Discourse freely without censorship on FreedomNet
