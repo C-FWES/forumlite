@@ -9,7 +9,7 @@ def login():
 
 @auth.route('/signup')
 def signup():
-    return 'Signup'
+    return render_template("signup.html")
 
 @auth.route('/logout')
 def logout():

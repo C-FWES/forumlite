@@ -6,6 +6,22 @@
 </head>
 <link rel="stylesheet" href="/static/style.css">
 <body>
-
+<div id="signup-form-container">
+    <h2 class="form-header">Sign Up</h2>
+    <div class="box">
+        <form method="post" action="/signup">
+            <div class="field">
+                <input class="input-is-large" type="email" name="email" placeholder="Email">
+            </div>
+            <div class="field">
+                <input class="input-is-large" type="text" name="name" placeholder="Name">
+            </div>
+            <div class="field">
+                <input class="input-is-large" type="password" name="password" placeholder="Password">
+            </div>
+            <button class="submit-button">Sign Up</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>
