@@ -9,6 +9,13 @@
 <div id="login-form-container">
     <h2 class="form-header">Log In</h2>
     <div class="box">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="notification is-danger">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}
         <form method="post" action="/login">
             <div class="field">
                 <input class="input-is-large" type="email" name="email" placeholder="Email">
