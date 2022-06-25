@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Profile</title>
+    <title>Edit Profile</title>
 </head>
 <link rel="stylesheet" href="/static/style.css">
 <body>
@@ -21,10 +21,16 @@
         {% endif %}
     </ul>
 </div>
-<div id="personal-info-container">
-    <p>Name: {{ name }}</p>
-    <p>Email: {{ email }}</p>
-    <a href="{{ url_for('auth.edit_profile') }}">Edit Information</a>
+<div id="edit-information-container">
+    <form method="post" action="/editprofile">
+        <div class="field">
+            <input class="input-is-large" type="email" name="email" value={{ current_user.email }}>
+        </div>
+        <div class="field">
+            <input class="input-is-large" type="name" name="name" value={{ current_user.name }}>
+        </div>
+        <button class="submit-button">Save</button>
+    </form>
 </div>
 </body>
 </html>

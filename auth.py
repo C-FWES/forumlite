@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import User
 from app import db
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 
 auth = Blueprint('auth', __name__)
 
@@ -43,6 +43,23 @@ def signup_post():
     db.session.commit()
 
     return redirect(url_for('auth.login'))
+
+@auth.route('/editprofile')
+@login_required
+def edit_profile():
+    return render_template("edit_profile.html")
+
+@auth.route('/editprofile', methods=['POST'])
+def edit_profile_post():
+    email = current_user.email
+    new_email = request.form.get('email')
+    new_name = request.form.get('name')
+    user = User.query.filter_by(email=email).first()
+    user.email = new_email
+    user.name = new_name
+    db.session.commit()
+    return redirect(url_for('main.profile'))
+
 
 @auth.route('/logout')
 @login_required
