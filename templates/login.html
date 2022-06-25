@@ -6,6 +6,25 @@
 </head>
 <link rel="stylesheet" href="/static/style.css">
 <body>
-
+<div id="login-form-container">
+    <h2 class="form-header">Log In</h2>
+    <div class="box">
+        <form method="post" action="/login">
+            <div class="field">
+                <input class="input-is-large" type="email" name="email" placeholder="Email">
+            </div>
+            <div class="field">
+                <input class="input-is-large" type="password" name="password" placeholder="Password">
+            </div>
+            <div class="field">
+                <label class="checkbox">
+                    <input type="checkbox" name="remember">
+                    Remember me
+                </label>
+            </div>
+            <button class="submit-button">Login</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>

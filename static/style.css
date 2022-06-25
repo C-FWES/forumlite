@@ -1,10 +1,12 @@
+* {
+    font-family: Segoe UI;
+}
 #navbar {
     background-color: lightblue;
     padding: 0.2%;
 }
 li {
     font-size: 1.5em;
-    font-family: Segoe Ui;
     text-decoration: none;
     color: black;
     display: inline-block;
