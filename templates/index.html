@@ -8,9 +8,12 @@
 <body>
 <div id="navbar">
     <ul>
-        <a href=""><li>Home</li></a>
+        <a href="{{ url_for('home') }}"><li>Home</li></a>
         <a href=""><li>Forum</li></a>
-        <a href=""><li>Log In</li></a>
+        <a href="{{ url_for('auth.login') }}"><li>Log In</li></a>
+        <a href="{{ url_for('main.profile') }}"><li>Profile</li></a>
+        <a href="{{ url_for('auth.signup') }}"><li>Sign Up</li></a>
+        <a href="{{ url_for('auth.logout') }}"><li>Log Out</li></a>
     </ul>
 </div>
 </body>
