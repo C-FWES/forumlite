@@ -40,6 +40,10 @@ def load_user(user_id):
 def home():  # put application's code here
     return render_template("index.html")
 
+@app.route('/writepost')
+def write_post():
+    return render_template("write_post.html")
+
 
 if __name__ == '__main__':
     app.run()
