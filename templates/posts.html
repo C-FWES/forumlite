@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <title>posts</title>
 </head>
+<link rel="stylesheet" href="/static/style.css">
 <body>
 {% for post in posts %}
     {{ post.title }}<br>
     {{ post.author }}<br>
     {{ post.content }}<br>
     {{ post.date_posted }}<br>
+    <a href="{{ url_for('post', id=post.id) }}">View Post</a>
+    <br><br>
 {% endfor %}
 </body>
 </html>

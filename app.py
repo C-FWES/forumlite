@@ -59,5 +59,11 @@ def posts():
     posts = Post.query.order_by(Post.date_posted)
     return render_template("posts.html", posts=posts)
 
+@app.route('/posts/<int:id>')
+def post(id):
+    post = Post.query.get_or_404(id)
+    return render_template("post.html", post=post)
+
+
 if __name__ == '__main__':
     app.run()
