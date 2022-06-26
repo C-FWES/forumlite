@@ -12,6 +12,7 @@
     {{ post.content }}<br>
     {{ post.date_posted }}<br>
     <a href="{{ url_for('post', id=post.id) }}">View Post</a>
+    <a href="{{ url_for('edit_post', id=post.id) }}">Edit Post</a>
     <br><br>
 {% endfor %}
 </body>
