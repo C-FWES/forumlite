@@ -1,6 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_login import LoginManager, login_required, current_user
 from flask_migrate import Migrate
 
 app = Flask(__name__)
@@ -17,7 +17,7 @@ login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
 
-from models import User
+from models import User, Post
 
 with app.app_context():
     db.create_all()
@@ -41,9 +41,23 @@ def home():  # put application's code here
     return render_template("index.html")
 
 @app.route('/writepost')
+@login_required
 def write_post():
     return render_template("write_post.html")
 
+@app.route('/create_post', methods=['POST'])
+def create_post():
+    title = request.form.get('input-title')
+    content = request.form.get('input-content')
+    new_post = Post(title=title, content=content, author=current_user.name)
+    db.session.add(new_post)
+    db.session.commit()
+    return redirect(url_for('posts'))
+
+@app.route('/posts')
+def posts():
+    posts = Post.query.order_by(Post.date_posted)
+    return render_template("posts.html", posts=posts)
 
 if __name__ == '__main__':
     app.run()
