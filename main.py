@@ -7,5 +7,5 @@ main = Blueprint('main', __name__)
 @main.route('/profile')
 @login_required
 def profile():
-    return render_template("profile.html", name=current_user.name, email=current_user.email)
+    return render_template("profile.html", name=current_user.name, email=current_user.email, time=current_user.last_seen)
 

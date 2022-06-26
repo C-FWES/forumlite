@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from models import User
 from app import db
 from flask_login import login_user, login_required, logout_user, current_user
+from datetime import datetime
 
 auth = Blueprint('auth', __name__)
 
@@ -20,6 +21,9 @@ def login_post():
         flash('Try again.')
         return redirect(url_for('auth.login'))
     login_user(user, remember=remember)
+    login_time = datetime.now()
+    user.last_seen = login_time
+    db.session.commit()
     return redirect(url_for('main.profile'))
 
 @auth.route('/signup')
