@@ -47,14 +47,16 @@ def write_post():
 
 @app.route('/create_post', methods=['POST'])
 def create_post():
+    poster = current_user.id
     title = request.form.get('input-title')
     content = request.form.get('input-content')
-    new_post = Post(title=title, content=content, author=current_user.name)
+    new_post = Post(title=title, content=content, poster_id=poster)
     db.session.add(new_post)
     db.session.commit()
     return redirect(url_for('posts'))
 
 @app.route('/posts')
+@login_required
 def posts():
     posts = Post.query.order_by(Post.date_posted)
     return render_template("posts.html", posts=posts)
@@ -77,6 +79,7 @@ def edit_post(id):
     return render_template("edit_post.html", post=post)
 
 @app.route('/posts/delete/<int:id>')
+@login_required
 def delete_post(id):
     post = Post.query.get_or_404(id)
     try:

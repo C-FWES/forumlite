@@ -24,7 +24,7 @@
 <a href="{{ url_for('write_post') }}">Create a Post</a><br><br>
 {% for post in posts %}
     {{ post.title }}<br>
-    {{ post.author }}<br>
+    {{ post.poster.name }}<br>
     {{ post.content }}<br>
     {{ post.date_posted }}<br>
     <a href="{{ url_for('post', id=post.id) }}">View Post</a>

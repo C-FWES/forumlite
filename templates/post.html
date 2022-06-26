@@ -22,7 +22,7 @@
     </ul>
 </div>
 {{ post.title }}<br>
-{{ post.author }}<br>
+{{ post.poster.name }}<br>
 {{ post.content }}<br>
 {{ post.date_posted }}<br><br>
 <a href="{{ url_for('edit_post', id=post.id) }}">Edit Post</a>
