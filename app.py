@@ -76,6 +76,19 @@ def edit_post(id):
         return redirect(url_for('posts'))
     return render_template("edit_post.html", post=post)
 
+@app.route('/posts/delete/<int:id>')
+def delete_post(id):
+    post = Post.query.get_or_404(id)
+    try:
+        db.session.delete(post)
+        db.session.commit()
+        posts = Post.query.order_by(Post.date_posted)
+        return render_template("posts.html", posts=posts)
+    except:
+        #error handler
+        posts = Post.query.order_by(Post.date_posted)
+        return render_template("posts.html", posts=posts)
+
 
 
 if __name__ == '__main__':
