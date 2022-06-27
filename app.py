@@ -67,16 +67,19 @@ def post(id):
     return render_template("post.html", post=post)
 
 @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
 def edit_post(id):
     post = Post.query.get_or_404(id)
-    if request.method == 'POST':
-        new_title = request.form.get('input-title')
-        new_content = request.form.get('input-content')
-        post.title = new_title
-        post.content = new_content
-        db.session.commit()
-        return redirect(url_for('posts'))
-    return render_template("edit_post.html", post=post)
+    id = current_user.id
+    if id == post.poster_id:
+        if request.method == 'POST':
+            new_title = request.form.get('input-title')
+            new_content = request.form.get('input-content')
+            post.title = new_title
+            post.content = new_content
+            db.session.commit()
+            return redirect(url_for('posts'))
+        return render_template("edit_post.html", post=post)
 
 @app.route('/posts/delete/<int:id>')
 @login_required
