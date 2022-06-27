@@ -82,15 +82,17 @@ def edit_post(id):
 @login_required
 def delete_post(id):
     post = Post.query.get_or_404(id)
-    try:
-        db.session.delete(post)
-        db.session.commit()
-        posts = Post.query.order_by(Post.date_posted)
-        return render_template("posts.html", posts=posts)
-    except:
-        #error handler
-        posts = Post.query.order_by(Post.date_posted)
-        return render_template("posts.html", posts=posts)
+    id = current_user.id
+    if id == post.poster_id:
+        try:
+            db.session.delete(post)
+            db.session.commit()
+            posts = Post.query.order_by(Post.date_posted)
+            return render_template("posts.html", posts=posts)
+        except:
+            #error handler
+            posts = Post.query.order_by(Post.date_posted)
+            return render_template("posts.html", posts=posts)
 
 
 
