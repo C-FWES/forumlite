@@ -41,7 +41,7 @@
         {% endif %}
         <a href="{{ url_for('reply_comment', id=comment.id) }}">Reply</a>
         <br> <br>
-        <div id="reply-container">
+        <div id="comment-reply-container">
         {% for reply in replies %}
             {% if reply.comment_id == comment.id %}
                 {{ reply.timestamp }} <br>
@@ -50,8 +50,6 @@
             {% endif %}
         {% endfor %} <br>
         </div>
-        <br>
-        <br>
     {% endfor %}
 </div>
 <br>
