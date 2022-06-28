@@ -26,6 +26,25 @@ class Comment(db.Model):
     content = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     post_id = db.Column(db.Integer, db.ForeignKey(Post.id))
+    replies = db.relationship('Reply', backref='replied_comment')
 
+class Reply(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    reply_author_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    reply_author_name = db.relationship('User', backref='reply_poster')
+    content = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    comment_id = db.Column(db.Integer, db.ForeignKey(Comment.id))
+    post_id = db.Column(db.Integer, db.ForeignKey(Post.id))
+    replies = db.relationship('ReplyThread', backref='replied_thread')
+
+class ReplyThread(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    author_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    author_name = db.relationship('User', backref='reply_thread_poster')
+    content = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    parent_id = db.Column(db.Integer, db.ForeignKey(Reply.id))
+    post_id = db.Column(db.Integer, db.ForeignKey(Post.id))
 
 

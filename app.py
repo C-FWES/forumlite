@@ -17,7 +17,7 @@ login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
 
-from models import User, Post, Comment
+from models import User, Post, Comment, Reply, ReplyThread
 
 with app.app_context():
     db.create_all()
@@ -65,8 +65,9 @@ def posts():
 def post(id):
     post = Post.query.get_or_404(id)
     comments = Comment.query.order_by(Comment.timestamp)
+    replies = Reply.query.order_by(Reply.timestamp)
     specific_comments = [comment for comment in comments if comment.post_id == id]
-    return render_template("post.html", post=post, comments=specific_comments)
+    return render_template("post.html", post=post, comments=specific_comments, replies=replies)
 
 @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -136,6 +137,19 @@ def delete_comment(id):
         except:
             comments = Comment.query.order_by(Comment.timestamp)
             return redirect(url_for('post', id=saved_id))
+
+@app.route('/post/<int:id>/comment/reply', methods=['GET', 'POST'])
+def reply_comment(id):
+    comment = Comment.query.get_or_404(id)
+    post_id = comment.post_id
+    if request.method == 'POST':
+        reply_content = request.form.get('reply_body')
+        replyer = current_user.id
+        new_reply = Reply(reply_author_id=replyer, content=reply_content, comment_id=comment.id, post_id=post_id)
+        db.session.add(new_reply)
+        db.session.commit()
+        return redirect(url_for('post', id=comment.post_id))
+    return render_template("reply.html", comment=comment)
 
 if __name__ == '__main__':
     app.run()

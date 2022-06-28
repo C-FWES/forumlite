@@ -12,3 +12,7 @@ li {
     display: inline-block;
     padding-right: 2%;
 }
+
+#reply-container {
+    margin-left: 5%;
+}
