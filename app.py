@@ -121,5 +121,20 @@ def edit_comment(id):
             return redirect(url_for('post', id=comment.post_id))
         return render_template("edit_comment.html", comment=comment)
 
+@app.route('/post/<int:id>/comment/delete', methods=['GET', 'POST'])
+def delete_comment(id):
+    comment = Comment.query.get_or_404(id)
+    saved_id = comment.post_id
+    id = current_user.id
+    if id == comment.author_id:
+        try:
+            db.session.delete(comment)
+            db.session.commit()
+            comments = Comment.query.order_by(Comment.timestamp)
+            return redirect(url_for('post', id=saved_id))
+        except:
+            comments = Comment.query.order_by(Comment.timestamp)
+            return redirect(url_for('post', id=saved_id))
+
 if __name__ == '__main__':
     app.run()
