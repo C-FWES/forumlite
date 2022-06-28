@@ -109,5 +109,17 @@ def post_comment(id):
     db.session.commit()
     return redirect(url_for('post', id=post.id))
 
+@app.route('/post/<int:id>/comment/edit', methods=['GET', 'POST'])
+def edit_comment(id):
+    comment = Comment.query.get_or_404(id)
+    id = current_user.id
+    if id == comment.author_id:
+        if request.method == 'POST':
+            new_content = request.form.get('comment-body')
+            comment.content = new_content
+            db.session.commit()
+            return redirect(url_for('post', id=comment.post_id))
+        return render_template("edit_comment.html", comment=comment)
+
 if __name__ == '__main__':
     app.run()

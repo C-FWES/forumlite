@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit comment</title>
+</head>
+<body>
+<div id="add-comment-container">
+    <form class="comment-form" action="{{ url_for('edit_comment', id=comment.id) }}" method="post">
+        <label for="comment-content">Edit comment</label>
+        <div class="field">
+            <textarea id="comment-content" name="comment-body" placeholder={{ comment.content }}></textarea>
+        </div>
+        <input type="submit">
+    </form>
+</div>
+</body>
+</html>
