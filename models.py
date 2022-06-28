@@ -14,9 +14,18 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     content = db.Column(db.Text)
-    #author = db.Column(db.String(100)) #needs connec to user
     poster_id = db.Column(db.Integer, db.ForeignKey(User.id))
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     slug = db.Column(db.String(256))
+    comments = db.relationship('Comment', backref='commented_post')
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    author_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    author_name = db.relationship('User', backref='comment_poster')
+    content = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    post_id = db.Column(db.Integer, db.ForeignKey(Post.id))
+
 
 

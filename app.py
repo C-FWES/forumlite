@@ -17,7 +17,7 @@ login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
 
-from models import User, Post
+from models import User, Post, Comment
 
 with app.app_context():
     db.create_all()
@@ -64,7 +64,8 @@ def posts():
 @app.route('/posts/<int:id>')
 def post(id):
     post = Post.query.get_or_404(id)
-    return render_template("post.html", post=post)
+    comments = Comment.query.order_by(Comment.timestamp)
+    return render_template("post.html", post=post, comments=comments)
 
 @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -97,7 +98,16 @@ def delete_post(id):
             posts = Post.query.order_by(Post.date_posted)
             return render_template("posts.html", posts=posts)
 
-
+@app.route('/post/<int:id>/comment', methods=['POST'])
+@login_required
+def post_comment(id):
+    post = Post.query.get_or_404(id)
+    commenter = current_user.id
+    content = request.form.get('comment_body')
+    new_comment = Comment(content=content, author_id=commenter, post_id=post.id)
+    db.session.add(new_comment)
+    db.session.commit()
+    return redirect(url_for('post', id=post.id))
 
 if __name__ == '__main__':
     app.run()
