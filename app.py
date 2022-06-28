@@ -65,7 +65,8 @@ def posts():
 def post(id):
     post = Post.query.get_or_404(id)
     comments = Comment.query.order_by(Comment.timestamp)
-    return render_template("post.html", post=post, comments=comments)
+    specific_comments = [comment for comment in comments if comment.post_id == id]
+    return render_template("post.html", post=post, comments=specific_comments)
 
 @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
