@@ -189,7 +189,7 @@ def delete_reply_thread(id):
         try:
             db.session.delete(reply)
             db.session.commit()
-            replies = Reply.query.order_by(ReplyThread.timestamp)
+            replies = ReplyThread.query.order_by(ReplyThread.timestamp)
             return redirect(url_for('post', id=saved_id))
         except:
             replies = ReplyThread.query.order_by(ReplyThread.timestamp)
@@ -204,8 +204,8 @@ def reply_thread_continue(id):
         replyer = current_user.id
         depth_curr = 0
         if reply.depth:
-            depth_curr = int(reply.depth) + 1
-        new_reply_thread = ReplyThread(author_id=replyer, content=reply_thread_content, reply_id=reply.id, post_id=reply.post_id, parent_id=reply.id, depth=depth_curr)
+            depth_curr = int(reply.depth) + 2
+        new_reply_thread = ReplyThread(author_id=replyer, content=reply_thread_content, reply_id=reply.reply_id, post_id=reply.post_id, parent_id=reply.id, depth=depth_curr)
         db.session.add(new_reply_thread)
         db.session.commit()
         return redirect(url_for('post', id=reply.post_id))
@@ -220,7 +220,7 @@ def delete_reply_thread_cont(id):
         try:
             db.session.delete(reply)
             db.session.commit()
-            replies = Reply.query.order_by(ReplyThread.timestamp)
+            replies = ReplyThread.query.order_by(ReplyThread.timestamp)
             return redirect(url_for('post', id=saved_id))
         except:
             replies = ReplyThread.query.order_by(ReplyThread.timestamp)

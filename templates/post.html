@@ -60,12 +60,12 @@
                         <div id="highest-depth-reply-container">
                                 {% for reply_thread_continue in reply_thread_continued %}
                                     <div id="depth-marker" style="margin-left: {{ reply_thread_continue.depth|int }}%">
-                                    {% if reply_thread_continue.parent_id == reply_thread.id or reply_thread_continue.parent_id == reply_thread_continue.children.reply_id %}
+                                    {% if reply_thread_continue.parent_id == reply_thread.id or reply_thread_continue.reply_id == reply_thread_continue.children.reply_id %}
                                         {{ reply_thread_continue.timestamp }} <br>
                                         {{ reply_thread_continue.author_name.name }} <br>
                                         {{ reply_thread_continue.content }} <br>
                                         <a href="{{ url_for('reply_thread_continue', id=reply_thread_continue.id) }}">Reply</a>
-                                        <a href="{{ url_for('delete_reply_thread_cont', id=reply_thread_continue.id) }}">Delete</a><br>
+                                        <a href="{{ url_for('delete_reply_thread', id=reply_thread_continue.id) }}">Delete</a><br><br>
                                     {% endif %}
                                     </div>
                                 {% endfor %}
