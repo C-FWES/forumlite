@@ -53,7 +53,19 @@
                     {% if reply_thread.reply_id == reply.id %}
                         {{ reply_thread.timestamp }} <br>
                         {{ reply_thread.author_name.name }} <br>
-                        {{ reply_thread.content }} <br><br>
+                        {{ reply_thread.content }} <br>
+                        <a href="{{ url_for('reply_thread_continue', id=reply_thread.id) }}">Reply</a> <br><br>
+                        <div id="highest-depth-reply-container">
+                            {% for reply_thread_continue in reply_thread_continued %}
+                                {% if reply_thread_continue.parent_id == reply_thread.id %}
+                                    {{ reply_thread_continue.timestamp }} <br>
+                                    {{ reply_thread_continue.author_name.name }} <br>
+                                    {{ reply_thread_continue.content }} <br>
+                                    <a href="{{ url_for('reply_thread_continue', id=reply_thread.id) }}">Reply</a> <br>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <br>
                     {% endif %}
                 {% endfor %}
                 </div>
