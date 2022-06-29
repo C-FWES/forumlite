@@ -48,5 +48,6 @@ class ReplyThread(db.Model):
     parent_id = db.Column(db.Integer, db.ForeignKey('reply_thread.id'))
     children = db.relationship('ReplyThread', backref='parent', remote_side=[id])
     post_id = db.Column(db.Integer, db.ForeignKey(Post.id))
+    depth = db.Column(db.Integer, default=1)
 
 

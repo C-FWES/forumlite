@@ -152,6 +152,21 @@ def reply_comment(id):
         return redirect(url_for('post', id=comment.post_id))
     return render_template("reply.html", comment=comment)
 
+@app.route('/post/<int:id>/comment/reply/delete', methods=['GET', 'POST'])
+def delete_reply(id):
+    reply = Reply.query.get_or_404(id)
+    saved_id = reply.post_id
+    id = current_user.id
+    if id == reply.reply_author_id:
+        try:
+            db.session.delete(reply)
+            db.session.commit()
+            replies = Reply.query.order_by(Reply.timestamp)
+            return redirect(url_for('post', id=saved_id))
+        except:
+            comments = Reply.query.order_by(Reply.timestamp)
+            return redirect(url_for('post', id=saved_id))
+
 @app.route('/post/<int:id>/comment/reply/reply_thread', methods=['GET', 'POST'])
 def reply_thread(id):
     reply = Reply.query.get_or_404(id)
@@ -165,6 +180,21 @@ def reply_thread(id):
         return redirect(url_for('post', id=reply.post_id))
     return render_template("reply_thread.html", reply=reply)
 
+@app.route('/post/<int:id>/comment/reply/reply_thread/delete', methods=['GET', 'POST'])
+def delete_reply_thread(id):
+    reply = ReplyThread.query.get_or_404(id)
+    saved_id = reply.post_id
+    id = current_user.id
+    if id == reply.author_id:
+        try:
+            db.session.delete(reply)
+            db.session.commit()
+            replies = Reply.query.order_by(ReplyThread.timestamp)
+            return redirect(url_for('post', id=saved_id))
+        except:
+            replies = ReplyThread.query.order_by(ReplyThread.timestamp)
+            return redirect(url_for('post', id=saved_id))
+
 @app.route('/post/<int:id>/comment/reply/reply_thread/reply_thread_continued', methods=['GET', 'POST'])
 def reply_thread_continue(id):
     reply = ReplyThread.query.get_or_404(id)
@@ -172,11 +202,29 @@ def reply_thread_continue(id):
     if request.method == 'POST':
         reply_thread_content = request.form.get('reply_body')
         replyer = current_user.id
-        new_reply_thread = ReplyThread(author_id=replyer, content=reply_thread_content, reply_id=reply.id, post_id=reply.post_id, parent_id=reply.id)
+        depth_curr = 0
+        if reply.depth:
+            depth_curr = int(reply.depth) + 1
+        new_reply_thread = ReplyThread(author_id=replyer, content=reply_thread_content, reply_id=reply.id, post_id=reply.post_id, parent_id=reply.id, depth=depth_curr)
         db.session.add(new_reply_thread)
         db.session.commit()
         return redirect(url_for('post', id=reply.post_id))
     return render_template("reply_thread_continue.html", reply=reply)
+
+@app.route('/post/<int:id>/comment/reply/reply_thread/reply_thread_continued/delete', methods=['GET', 'POST'])
+def delete_reply_thread_cont(id):
+    reply = ReplyThread.query.get_or_404(id)
+    saved_id = reply.post_id
+    id = current_user.id
+    if id == reply.author_id:
+        try:
+            db.session.delete(reply)
+            db.session.commit()
+            replies = Reply.query.order_by(ReplyThread.timestamp)
+            return redirect(url_for('post', id=saved_id))
+        except:
+            replies = ReplyThread.query.order_by(ReplyThread.timestamp)
+            return redirect(url_for('post', id=saved_id))
 
 
 if __name__ == '__main__':

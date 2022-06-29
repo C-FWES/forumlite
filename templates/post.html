@@ -48,22 +48,27 @@
                 {{ reply.reply_author_name.name }} <br>
                 {{ reply.content }} <br>
                 <a href="{{ url_for('reply_thread', id=reply.id) }}">Reply</a> <br>
+                <a href="{{ url_for('delete_reply', id=reply.id) }}">Delete</a>
                 <div id="reply-thread-container">
                     {% for reply_thread in reply_threads %}
-                    {% if reply_thread.reply_id == reply.id %}
+                    {% if reply_thread.reply_id == reply.id and not reply_thread.parent_id %}
                         {{ reply_thread.timestamp }} <br>
                         {{ reply_thread.author_name.name }} <br>
                         {{ reply_thread.content }} <br>
-                        <a href="{{ url_for('reply_thread_continue', id=reply_thread.id) }}">Reply</a> <br><br>
+                        <a href="{{ url_for('reply_thread_continue', id=reply_thread.id) }}">Reply</a>
+                        <a href="{{ url_for('delete_reply_thread', id=reply_thread.id) }}">Delete</a>
                         <div id="highest-depth-reply-container">
-                            {% for reply_thread_continue in reply_thread_continued %}
-                                {% if reply_thread_continue.parent_id == reply_thread.id %}
-                                    {{ reply_thread_continue.timestamp }} <br>
-                                    {{ reply_thread_continue.author_name.name }} <br>
-                                    {{ reply_thread_continue.content }} <br>
-                                    <a href="{{ url_for('reply_thread_continue', id=reply_thread.id) }}">Reply</a> <br>
-                                {% endif %}
-                            {% endfor %}
+                                {% for reply_thread_continue in reply_thread_continued %}
+                                    <div id="depth-marker" style="margin-left: {{ reply_thread_continue.depth|int }}%">
+                                    {% if reply_thread_continue.parent_id == reply_thread.id or reply_thread_continue.parent_id == reply_thread_continue.children.reply_id %}
+                                        {{ reply_thread_continue.timestamp }} <br>
+                                        {{ reply_thread_continue.author_name.name }} <br>
+                                        {{ reply_thread_continue.content }} <br>
+                                        <a href="{{ url_for('reply_thread_continue', id=reply_thread_continue.id) }}">Reply</a>
+                                        <a href="{{ url_for('delete_reply_thread_cont', id=reply_thread_continue.id) }}">Delete</a><br>
+                                    {% endif %}
+                                    </div>
+                                {% endfor %}
                         </div>
                         <br>
                     {% endif %}
