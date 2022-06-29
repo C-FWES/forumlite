@@ -34,7 +34,7 @@
     {% for comment in comments %}
         {{ comment.timestamp }} <br>
         {{ comment.author_name.name }} <br>
-        {{ comment.content }} <br> <br>
+        {{ comment.content }} <br>
         {% if current_user.id == comment.author_id %}
         <a href="{{ url_for('edit_comment', id=comment.id) }}">Edit Comment</a>
         <a href="{{ url_for('delete_comment', id=comment.id) }}">Delete Comment</a>
@@ -46,7 +46,18 @@
             {% if reply.comment_id == comment.id %}
                 {{ reply.timestamp }} <br>
                 {{ reply.reply_author_name.name }} <br>
-                {{ reply.content }} <br><br>
+                {{ reply.content }} <br>
+                <a href="{{ url_for('reply_thread', id=reply.id) }}">Reply</a> <br>
+                <div id="reply-thread-container">
+                    {% for reply_thread in reply_threads %}
+                    {% if reply_thread.reply_id == reply.id %}
+                        {{ reply_thread.timestamp }} <br>
+                        {{ reply_thread.author_name.name }} <br>
+                        {{ reply_thread.content }} <br><br>
+                    {% endif %}
+                {% endfor %}
+                </div>
+                <br>
             {% endif %}
         {% endfor %} <br>
         </div>

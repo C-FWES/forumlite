@@ -44,7 +44,9 @@ class ReplyThread(db.Model):
     author_name = db.relationship('User', backref='reply_thread_poster')
     content = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-    parent_id = db.Column(db.Integer, db.ForeignKey(Reply.id))
+    reply_id = db.Column(db.Integer, db.ForeignKey(Reply.id))
+    parent_id = db.Column(db.Integer, db.ForeignKey('reply_thread.id'))
+    children = db.relationship('ReplyThread', backref='parent', remote_side=[id])
     post_id = db.Column(db.Integer, db.ForeignKey(Post.id))
 
 

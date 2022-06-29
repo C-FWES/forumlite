@@ -66,8 +66,9 @@ def post(id):
     post = Post.query.get_or_404(id)
     comments = Comment.query.order_by(Comment.timestamp)
     replies = Reply.query.order_by(Reply.timestamp)
+    reply_threads = ReplyThread.query.order_by(ReplyThread.timestamp)
     specific_comments = [comment for comment in comments if comment.post_id == id]
-    return render_template("post.html", post=post, comments=specific_comments, replies=replies)
+    return render_template("post.html", post=post, comments=specific_comments, replies=replies, reply_threads=reply_threads)
 
 @app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -150,6 +151,19 @@ def reply_comment(id):
         db.session.commit()
         return redirect(url_for('post', id=comment.post_id))
     return render_template("reply.html", comment=comment)
+
+@app.route('/post/<int:id>/comment/reply/reply_thread', methods=['GET', 'POST'])
+def reply_thread(id):
+    reply = Reply.query.get_or_404(id)
+    main_reply_id = reply.id
+    if request.method == 'POST':
+        reply_thread_content = request.form.get('reply_body')
+        replyer = current_user.id
+        new_reply_thread = ReplyThread(author_id=replyer, content=reply_thread_content, reply_id=reply.id, post_id=reply.post_id)
+        db.session.add(new_reply_thread)
+        db.session.commit()
+        return redirect(url_for('post', id=reply.post_id))
+    return render_template("reply_thread.html", reply=reply)
 
 if __name__ == '__main__':
     app.run()
