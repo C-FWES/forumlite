@@ -7,7 +7,7 @@
 <body>
 <div id="add-comment-container">
     <form class="comment-form" action="{{ url_for('reply_comment', id=comment.id) }}" method="post">
-        <label for="reply-content">Reply to {{ comment.author_name.name }}</label>
+        <label for="reply-content">Replying to {{ comment.author_name.name }}</label>
         <div class="field">
             <textarea id="reply-content" name="reply_body" placeholder="Say something"></textarea>
         </div>

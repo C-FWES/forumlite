@@ -152,6 +152,19 @@ def reply_comment(id):
         return redirect(url_for('post', id=comment.post_id))
     return render_template("reply.html", comment=comment)
 
+@app.route('/post/<int:id>/comment/reply/edit', methods=['GET', 'POST'])
+def edit_reply(id):
+    reply = Reply.query.get_or_404(id)
+    id = current_user.id
+    parent_name = Comment.query.get_or_404(reply.comment_id).author_name.name
+    if id == reply.reply_author_id:
+        if request.method == 'POST':
+            new_content = request.form.get('reply_body')
+            reply.content = new_content
+            db.session.commit()
+            return redirect(url_for('post', id=reply.post_id))
+        return render_template("edit_reply.html", reply=reply, parent_name=parent_name)
+
 @app.route('/post/<int:id>/comment/reply/delete', methods=['GET', 'POST'])
 def delete_reply(id):
     reply = Reply.query.get_or_404(id)
