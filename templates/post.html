@@ -60,7 +60,7 @@
                         <div id="highest-depth-reply-container">
                                 {% for reply_thread_continue in reply_thread_continued %}
                                     <div id="depth-marker" style="margin-left: {{ reply_thread_continue.depth|int }}%">
-                                    {% if reply_thread_continue.parent_id == reply_thread.id or reply_thread_continue.reply_id == reply_thread_continue.children.reply_id %}
+                                    {% if reply_thread_continue.parent_id == reply_thread.id or reply_thread_continue.reply_id == reply_thread_continue.children.reply_id and reply_thread_continue.reply_id == reply.id %}
                                         {{ reply_thread_continue.timestamp }} <br>
                                         {{ reply_thread_continue.author_name.name }} <br>
                                         {{ reply_thread_continue.content }} <br>
