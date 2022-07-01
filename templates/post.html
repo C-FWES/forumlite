@@ -22,7 +22,7 @@
     </ul>
 </div>
 {{ post.title }}<br>
-{{ post.poster.name }}<br>
+<a href=" {{ url_for('main.view_profile', id=post.poster_id) }}"> {{ post.poster.name }} </a><br>
 {{ post.content }}<br>
 {{ post.date_posted }}<br><br>
 {% if current_user.id == post.poster_id %}
