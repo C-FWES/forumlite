@@ -33,7 +33,7 @@
     <h2>Comments</h2>
     {% for comment in comments %}
         {{ comment.timestamp }} <br>
-        {{ comment.author_name.name }} <br>
+        <a href=" {{ url_for('main.view_profile', id=comment.author_id) }}"> {{ comment.author_name.name }} </a> <br>
         {{ comment.content }} <br>
         {% if current_user.id == comment.author_id %}
         <a href="{{ url_for('edit_comment', id=comment.id) }}">Edit Comment</a>
@@ -45,7 +45,7 @@
         {% for reply in replies %}
             {% if reply.comment_id == comment.id %}
                 {{ reply.timestamp }} <br>
-                {{ reply.reply_author_name.name }} <br>
+                <a href=" {{ url_for('main.view_profile', id=reply.reply_author_id) }}"> {{ reply.reply_author_name.name }} </a> <br>
                 {{ reply.content }} <br>
                 <a href="{{ url_for('reply_thread', id=reply.id) }}">Reply</a>
                 <a href="{{ url_for('edit_reply', id=reply.id) }}">Edit</a>
@@ -54,7 +54,7 @@
                     {% for reply_thread in reply_threads %}
                     {% if reply_thread.reply_id == reply.id and not reply_thread.parent_id %}
                         {{ reply_thread.timestamp }} <br>
-                        {{ reply_thread.author_name.name }} <br>
+                        <a href=" {{ url_for('main.view_profile', id=reply_thread.author_id) }}"> {{ reply_thread.author_name.name }} </a> <br>
                         {{ reply_thread.content }} <br>
                         <a href="{{ url_for('reply_thread_continue', id=reply_thread.id) }}">Reply</a>
                         <a href="{{ url_for('edit_reply_thread', id=reply_thread.id) }}">Edit</a>
@@ -64,7 +64,7 @@
                                     <div id="depth-marker" style="margin-left: {{ reply_thread_continue.depth|int }}%">
                                     {% if reply_thread_continue.parent_id == reply_thread.id or reply_thread_continue.reply_id == reply_thread_continue.children.reply_id and reply_thread_continue.reply_id == reply.id %}
                                         {{ reply_thread_continue.timestamp }} <br>
-                                        {{ reply_thread_continue.author_name.name }} <br>
+                                        <a href=" {{ url_for('main.view_profile', id=reply_thread_continue.author_id) }}"> {{ reply_thread_continue.author_name.name }} </a> <br>
                                         {{ reply_thread_continue.content }} <br>
                                         <a href="{{ url_for('reply_thread_continue', id=reply_thread_continue.id) }}">Reply</a>
                                         <a href="{{ url_for('edit_reply_thread', id=reply_thread_continue.id) }}">Edit</a>
