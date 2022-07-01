@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>edit Reply</title>
+</head>
+<body>
+<div id="add-comment-container">
+    <form class="comment-form" action="{{ url_for('edit_reply_thread', id=reply.id) }}" method="post">
+        <label for="reply-content">Replying to {{ parent_name }}</label>
+        <div class="field">
+            <textarea id="reply-content" name="reply_body" placeholder="{{ reply.content }}"></textarea>
+        </div>
+        <input type="submit">
+    </form>
+</div>
+</body>
+</html>

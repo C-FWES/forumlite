@@ -57,7 +57,7 @@
                         {{ reply_thread.author_name.name }} <br>
                         {{ reply_thread.content }} <br>
                         <a href="{{ url_for('reply_thread_continue', id=reply_thread.id) }}">Reply</a>
-                        <a href="{{ url_for('delete_reply_thread', id=reply_thread.id) }}">Edit</a>
+                        <a href="{{ url_for('edit_reply_thread', id=reply_thread.id) }}">Edit</a>
                         <a href="{{ url_for('delete_reply_thread', id=reply_thread.id) }}">Delete</a>
                         <div id="highest-depth-reply-container">
                                 {% for reply_thread_continue in reply_thread_continued %}
