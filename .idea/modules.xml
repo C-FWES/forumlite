@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/freedomnet.iml" filepath="$PROJECT_DIR$/.idea/freedomnet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/flaskforum.iml" filepath="$PROJECT_DIR$/.idea/flaskforum.iml" />
     </modules>
   </component>
 </project>

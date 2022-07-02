@@ -260,21 +260,6 @@ def reply_thread_continue(id):
         return redirect(url_for('post', id=reply.post_id))
     return render_template("reply_thread_continue.html", reply=reply)
 
-@app.route('/post/<int:id>/comment/reply/reply_thread/reply_thread_continued/delete', methods=['GET', 'POST'])
-def delete_reply_thread_cont(id):
-    reply = ReplyThread.query.get_or_404(id)
-    saved_id = reply.post_id
-    id = current_user.id
-    if id == reply.author_id:
-        try:
-            db.session.delete(reply)
-            db.session.commit()
-            replies = ReplyThread.query.order_by(ReplyThread.timestamp)
-            return redirect(url_for('post', id=saved_id))
-        except:
-            replies = ReplyThread.query.order_by(ReplyThread.timestamp)
-            return redirect(url_for('post', id=saved_id))
-
 
 if __name__ == '__main__':
     app.run()
