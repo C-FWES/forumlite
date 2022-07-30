@@ -1,2 +1,2 @@
-# freedomnet
- Discourse freely without censorship on FreedomNet
+# forumlite
+Lightweight forum framework built on flask
